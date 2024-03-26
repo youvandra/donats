@@ -25,7 +25,7 @@ export default function Landing() {
             Login
           </ShadowBoxButton>
         </div>
-        {/* main */}
+        {/* main content */}
         <main className="flex flex-col py-5 justify-center items-center gap-5 w-[1000px] mx-auto">
           <ShaodowBoxDiv
             height="112px"
@@ -72,7 +72,7 @@ export default function Landing() {
               </ShadowBoxButton>
             </div>
           </div>
-          {/* pricing section */}
+          {/* last grouped section */}
           <div className="flex flex-col gap-14 mt-20">
             <div className=" flex flex-col items-start justify-center">
               <ShadowBoxButton className="text-[16px] w-[145px] h-[42px] bg-magenta">
@@ -111,8 +111,22 @@ export default function Landing() {
                 />
               </div>
             </ShaodowBoxDiv>
+            <div className="flex justify-between">
+              <ShadowBoxButton className="w-[448px] h-[63px] bg-yellowGold">
+                Tutorial
+              </ShadowBoxButton>
+              <ShadowBoxButton className="w-[448px] h-[63px] bg-orange">
+                Terms and condition
+              </ShadowBoxButton>
+            </div>
           </div>
         </main>
+        {/* footer */}
+        <div className="pt-24 pb-6">
+          <div className="flex justify-center items-baseline">
+            <h3>{"Made with <3 from Donats!"}</h3>
+          </div>
+        </div>
       </div>
     </div>
   );
