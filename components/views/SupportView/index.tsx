@@ -19,7 +19,7 @@ export default function SupportView() {
         {/* card 1 */}
         <div className="flex flex-col items-start w-max justify-center mt-7 gap-5">
           <ShadowBoxButton className="mx-auto w-[146px] h-[81px] bg-orange">
-            username
+            Cashout
           </ShadowBoxButton>
           <ShaodowBoxDiv height="296px" widht="532px" backgroundColor="#F4CD00">
             <div className="px-6 py-3 flex flex-col gap-28">
