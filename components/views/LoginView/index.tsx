@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 import HeaderSection from "@/components/layouts/Header";
@@ -6,8 +7,33 @@ import ShaodowBoxDiv from "@/components/module/ShadowBoxDiv";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { config } from "@/config";
+import { signIn, useSession } from "next-auth/react";
 
 export default function LoginView() {
+  const router = useRouter();
+
+  const session = useSession();
+
+  if (session.data?.user?.name) {
+    return router.push("/dashboard");
+  }
+
+  const handleLogin = async (formData: FormData) => {
+    try {
+      const email = formData.get("email") as string;
+      const password = formData.get("password") as string;
+
+      console.log(email, password);
+
+      await signIn("credentials", { email, password });
+    } catch (error: any) {
+      console.log(error);
+      alert(error.message);
+    }
+  };
   return (
     <div className="flex flex-col gap-2">
       {/* header */}
@@ -25,7 +51,10 @@ export default function LoginView() {
             backgroundColor="#FAFFDF"
             innerClassName="px-14 py-14"
           >
-            <form className="flex flex-col justify-start item-center gap-6">
+            <form
+              action={handleLogin}
+              className="flex flex-col justify-start item-center gap-6"
+            >
               {/* email input */}
               <div className="w-full border-b border-black flex flex-col gap-1">
                 <Label htmlFor="email" className="text-2xl font-normal">
@@ -33,6 +62,7 @@ export default function LoginView() {
                 </Label>
                 <Input
                   type="email"
+                  name="email"
                   id="email"
                   autoComplete="off"
                   className="w-full bg-transparent focus:bg-transparent border-none border-transparent focus:border-transparent"
@@ -46,6 +76,7 @@ export default function LoginView() {
                 <Input
                   type="password"
                   id="password"
+                  name="password"
                   autoComplete="off"
                   autoFocus={false}
                   aria-autocomplete="none"

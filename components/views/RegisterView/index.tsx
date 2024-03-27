@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 import HeaderSection from "@/components/layouts/Header";
@@ -7,8 +8,58 @@ import ShaodowBoxDiv from "@/components/module/ShadowBoxDiv";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import axios from "axios";
+import { config } from "@/config";
+
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function RegisterView() {
+  const router = useRouter();
+
+  const session = useSession();
+
+  if (session.data?.user?.name) {
+    return router.push("/dashboard");
+  }
+
+  const handleSubmit = async (formData: FormData) => {
+    try {
+      const email = formData.get("email") as string;
+      const password = formData.get("password") as string;
+      const confirmPassword = formData.get("confirmPassword") as string;
+      // checkbox input
+      const yearAbove = formData.get("18_year");
+      const commerciaPurpose = formData.get("commercial_purpose");
+      const agreeTerms = formData.get("agree_terms");
+
+      // input validation
+      if (!email || !password || !confirmPassword) {
+        alert("Please fill the inputs");
+      } else if (
+        yearAbove != "on" ||
+        commerciaPurpose != "on" ||
+        agreeTerms != "on"
+      ) {
+        alert("Please all checkbox");
+      } else if (confirmPassword != password) {
+        alert("password & confirm password not match");
+      } else {
+        const payload = {
+          email,
+          password,
+        };
+
+        await axios.post(`${config.baseUrl}/api/auth/register`, payload);
+
+        router.push("/success/signup");
+      }
+    } catch (error: any) {
+      console.log(error);
+      alert(error.message);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2">
       {/* header */}
@@ -26,7 +77,10 @@ export default function RegisterView() {
             backgroundColor="#FAFFDF"
             innerClassName="px-14 py-14"
           >
-            <form className="flex flex-col justify-start item-center gap-6">
+            <form
+              action={handleSubmit}
+              className="flex flex-col justify-start item-center gap-6"
+            >
               {/* email input */}
               <div className="w-full border-b border-black flex flex-col gap-1">
                 <Label htmlFor="email" className="text-2xl font-normal">
@@ -78,7 +132,7 @@ export default function RegisterView() {
               <div className="w-full my-14 flex flex-col gap-4">
                 <div className="flex items-center w-/4 gap-3">
                   <Checkbox
-                    id="terms2"
+                    name="18_year"
                     className="w-[30px] h-[30px] border border-black p-2 bg-white rounded-xl checked:bg-transparent"
                   />
                   <span className="text-[15px] font-normal">
@@ -88,7 +142,7 @@ export default function RegisterView() {
                 </div>
                 <div className="flex items-center w-/4 gap-3">
                   <Checkbox
-                    id="terms2"
+                    name="commercial_purpose"
                     className="w-[30px] h-[30px] border border-black p-2 bg-white rounded-xl checked:bg-transparent"
                   />
                   <span className="text-[15px] font-normal">
@@ -99,7 +153,7 @@ export default function RegisterView() {
                 </div>
                 <div className="flex items-center w-/4 gap-3">
                   <Checkbox
-                    id="terms2"
+                    name="agree_terms"
                     className="w-[30px] h-[30px] border border-black p-2 bg-white rounded-xl checked:bg-transparent"
                   />
                   <span className="text-[15px] font-normal">

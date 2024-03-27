@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 import HeaderSection from "@/components/layouts/Header";
@@ -8,8 +9,17 @@ import DonutIcon from "@/public/assets/images/donut.png";
 import DonutIcon2 from "@/public/assets/images/donut-02.png";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function DashboardView() {
+  const router = useRouter();
+  const session = useSession();
+
+  if (!session.data?.user?.name) {
+    return router.push("/");
+  }
+
   return (
     <div className="flex flex-col gap-2">
       {/* header */}
@@ -49,8 +59,8 @@ export default function DashboardView() {
         {/* card 2 */}
         <Link href={"/support"}>
           <div className="flex flex-col w-max items-end  mt-7 gap-5 relative">
-            <ShadowBoxButton className="mx-auto w-[146px] h-[81px] cursor-default">
-              username
+            <ShadowBoxButton className="mx-auto min-w-[146px] h-[81px] cursor-default">
+              {session.data.user.name}
             </ShadowBoxButton>
             <ShaodowBoxDiv
               height="296px"

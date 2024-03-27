@@ -3,6 +3,9 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 
 import DonutIcon from "@/public/assets/images/donut.png";
+import { NextAuthProvider } from "@/components/layouts/NextAuthProvider";
+import { authOptions } from "@/lib/nextauth";
+import { getServerSession } from "next-auth";
 
 export const metadata: Metadata = {
   title: "Donuts",
@@ -16,14 +19,18 @@ const poppin = Poppins({
   variable: "--poppins",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
-      <body className={poppin.className}>{children}</body>
+      <NextAuthProvider session={session}>
+        <body className={poppin.className}>{children}</body>
+      </NextAuthProvider>
     </html>
   );
 }
