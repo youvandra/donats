@@ -20,10 +20,10 @@ export default function OverlayView() {
       <main className="flex flex-col px-32 mt-10 justify-center items-center gap-10">
         {/* button group */}
         <div className="w-full flex justify-between items-center">
-          <ShadowBoxButton className="mx-auto w-[146px] h-[81px] bg-orange">
+          <ShadowBoxButton className="mx-auto w-[146px] h-[81px] cursor-default bg-orange">
             Cashout
           </ShadowBoxButton>
-          <ShadowBoxButton className="mx-auto w-[146px] h-[81px]">
+          <ShadowBoxButton className="mx-auto w-[146px] h-[81px] cursor-default">
             Cashout
           </ShadowBoxButton>
         </div>

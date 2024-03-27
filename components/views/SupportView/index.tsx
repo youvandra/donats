@@ -18,7 +18,7 @@ export default function SupportView() {
       <main className="flex px-32 mt-10 justify-center items-center gap-10">
         {/* card 1 */}
         <div className="flex flex-col items-start w-max justify-center mt-7 gap-5">
-          <ShadowBoxButton className="mx-auto w-[146px] h-[81px] bg-orange">
+          <ShadowBoxButton className="mx-auto w-[146px] h-[81px] bg-orange cursor-default">
             Cashout
           </ShadowBoxButton>
           <ShaodowBoxDiv height="296px" widht="532px" backgroundColor="#F4CD00">
@@ -35,7 +35,7 @@ export default function SupportView() {
 
         {/* card 2 */}
         <div className="flex flex-col w-max items-end  mt-7 gap-5">
-          <ShadowBoxButton className="mx-auto w-[146px] h-[81px]">
+          <ShadowBoxButton className="mx-auto w-[146px] h-[81px] cursor-default">
             Bob
           </ShadowBoxButton>
           <ShaodowBoxDiv height="296px" widht="532px" backgroundColor="#FFB5E6">

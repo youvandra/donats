@@ -7,6 +7,7 @@ import ShaodowBoxDiv from "@/components/module/ShadowBoxDiv";
 import DonutIcon from "@/public/assets/images/donut.png";
 import DonutKerenIcon from "@/public/assets/images/donut-01.png";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function LandingViews() {
   return (
@@ -22,9 +23,11 @@ export default function LandingViews() {
       </div>
       {/* login btn */}
       <div className="mx-auto flex my-5 flex-col justify-center">
-        <ShadowBoxButton className="bg-yellowGold mx-auto">
-          Login
-        </ShadowBoxButton>
+        <Link href={"/login"}>
+          <ShadowBoxButton className="bg-yellowGold mx-auto">
+            Login
+          </ShadowBoxButton>
+        </Link>
       </div>
       {/* main content */}
       <main className="flex flex-col py-5 justify-center items-center gap-5 w-[1000px] mx-auto">
@@ -42,7 +45,7 @@ export default function LandingViews() {
         </ShaodowBoxDiv>
         {/* div with labels */}
         <div className="mt-20 flex flex-col items-start justify-center">
-          <ShadowBoxButton className="text-[16px] w-[145px] h-[42px] bg-orange">
+          <ShadowBoxButton className="text-[16px] w-[145px] h-[42px] bg-orange cursor-default">
             Starting Out
           </ShadowBoxButton>
           <ShaodowBoxDiv
@@ -66,15 +69,17 @@ export default function LandingViews() {
           <Image src={DonutIcon} alt="" height={160} width={160} />
           <div className="flex flex-col gap-5">
             <h3 className="text-4xl">Ready join with us ?</h3>
-            <ShadowBoxButton className="text-[24px] bg-cyan">
-              Register
-            </ShadowBoxButton>
+            <Link href={"/register"}>
+              <ShadowBoxButton className="text-[24px] bg-cyan">
+                Register
+              </ShadowBoxButton>
+            </Link>
           </div>
         </div>
         {/* last grouped section */}
         <div className="flex flex-col gap-14 mt-20">
           <div className=" flex flex-col items-start justify-center">
-            <ShadowBoxButton className="text-[16px] w-[145px] h-[42px] bg-magenta">
+            <ShadowBoxButton className="text-[16px] w-[145px] h-[42px] bg-magenta cursor-default">
               Pricing
             </ShadowBoxButton>
             <ShaodowBoxDiv
@@ -90,33 +95,39 @@ export default function LandingViews() {
               </div>
             </ShaodowBoxDiv>
           </div>
-          <ShaodowBoxDiv
-            height="220px"
-            innerClassName="flex justify-end items-center"
-            backgroundColor="#C8AEFF"
-          >
-            <div className="mx-auto py-6 flex flex-col justify-center gap-3 items-center">
-              <h3 className="text-[24px]">Confused ?</h3>
-              <h3 className="text-[24px]">Have a questions?</h3>
-              <h3 className="text-[24px]">Check our faq</h3>
-            </div>
-            <div className="mr-20">
-              <Image
-                src={DonutKerenIcon}
-                alt=""
-                width={213}
-                height={213}
-                className=""
-              />
-            </div>
-          </ShaodowBoxDiv>
+          <Link href={"/faq"}>
+            <ShaodowBoxDiv
+              height="220px"
+              innerClassName="flex justify-end items-center"
+              backgroundColor="#C8AEFF"
+            >
+              <div className="mx-auto py-6 flex flex-col justify-center gap-3 items-center">
+                <h3 className="text-[24px]">Confused ?</h3>
+                <h3 className="text-[24px]">Have a questions?</h3>
+                <h3 className="text-[24px]">Check our faq</h3>
+              </div>
+              <div className="mr-20">
+                <Image
+                  src={DonutKerenIcon}
+                  alt=""
+                  width={213}
+                  height={213}
+                  className=""
+                />
+              </div>
+            </ShaodowBoxDiv>
+          </Link>
           <div className="flex justify-between">
-            <ShadowBoxButton className="w-[448px] h-[63px] bg-yellowGold">
-              Tutorial
-            </ShadowBoxButton>
-            <ShadowBoxButton className="w-[448px] h-[63px] bg-orange">
-              Terms and condition
-            </ShadowBoxButton>
+            <Link href={"/tutorial"}>
+              <ShadowBoxButton className="w-[448px] h-[63px] bg-yellowGold">
+                Tutorial
+              </ShadowBoxButton>
+            </Link>
+            <Link href={"/terms"}>
+              <ShadowBoxButton className="w-[448px] h-[63px] bg-orange">
+                Terms and condition
+              </ShadowBoxButton>
+            </Link>
           </div>
         </div>
       </main>
