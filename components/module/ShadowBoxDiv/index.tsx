@@ -32,7 +32,7 @@ export default function ShaodowBoxDiv({
           backgroundColor: backgroundColor,
         }}
         className={cn(
-          `rounded-xl -translate-y-[4px] translate-x-[5px] border-black`,
+          `rounded-xl -translate-y-[4px] translate-x-[5px] border border-black`,
           innerClassName
         )}
       >
