@@ -7,9 +7,8 @@ import ShaodowBoxDiv from "@/components/module/ShadowBoxDiv";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import { config } from "@/config";
+
 import { signIn, useSession } from "next-auth/react";
 
 export default function LoginView() {
@@ -85,7 +84,7 @@ export default function LoginView() {
               </div>
               {/* button submit */}
               <div className="mt-10 self-end">
-                <ShadowBoxButton className="bg-yellowGold">
+                <ShadowBoxButton type="submit" className="bg-yellowGold">
                   Login
                 </ShadowBoxButton>
               </div>

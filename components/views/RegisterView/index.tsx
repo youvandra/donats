@@ -165,7 +165,7 @@ export default function RegisterView() {
 
               {/* button submit */}
               <div className="mt-10 self-end">
-                <ShadowBoxButton className="bg-yellowGold">
+                <ShadowBoxButton type="submit" className="bg-yellowGold">
                   Register
                 </ShadowBoxButton>
               </div>

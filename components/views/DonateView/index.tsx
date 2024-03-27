@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 import HeaderSection from "@/components/layouts/Header";
@@ -5,7 +6,20 @@ import ShadowBoxButton from "@/components/module/ShadowBoxButton";
 import ShaodowBoxDiv from "@/components/module/ShadowBoxDiv";
 import ShadowBoxInput from "@/components/module/ShadowBoxInput";
 import { Checkbox } from "@/components/ui/checkbox";
-export default function DonateView() {
+import { useRouter } from "next/navigation";
+
+type Props = {
+  username: string;
+};
+
+export default function DonateView(props: Props) {
+  const router = useRouter();
+
+  const handleDonate = () => {
+    alert(`donate to: ${props.username}`);
+    router.push(`/alert?username=${props.username}`);
+  };
+
   return (
     <div className="flex flex-col gap-2">
       {/* header */}
@@ -16,7 +30,9 @@ export default function DonateView() {
         {/*  */}
         <div className="flex justify-between w-full">
           <h1 className="text-4xl">Donate to :</h1>
-          <ShadowBoxButton className="w-[146px] h-[80px]">Bob</ShadowBoxButton>
+          <ShadowBoxButton className="min-w-[146px] h-[80px]">
+            {props.username}
+          </ShadowBoxButton>
         </div>
         {/*  */}
         <ShaodowBoxDiv widht="512px" height="540px" backgroundColor="#FAFFDF">
@@ -59,7 +75,10 @@ export default function DonateView() {
               </span>
             </div>
             <div className="mx-auto mt-5">
-              <ShadowBoxButton className="bg-yellowGold w-[147px] h-[47px]">
+              <ShadowBoxButton
+                onClick={handleDonate}
+                className="bg-yellowGold w-[147px] h-[47px]"
+              >
                 Donate
               </ShadowBoxButton>
             </div>
