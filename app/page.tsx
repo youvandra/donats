@@ -10,11 +10,12 @@ import DashboardView from "@/components/views/DashboardView";
 
 import SupportView from "@/components/views/SupportView";
 import OverlayView from "@/components/views/OverlayView";
+import DonateView from "@/components/views/DonateView";
 
 export default function Landing() {
   return (
     <div className="h-full min-h-[100vh] bg-[#D9D9D9] pb-40">
-      <OverlayView />
+      <DonateView />
     </div>
   );
 }

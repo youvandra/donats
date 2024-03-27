@@ -5,7 +5,6 @@ import ShadowBoxButton from "@/components/module/ShadowBoxButton";
 import ShaodowBoxDiv from "@/components/module/ShadowBoxDiv";
 
 import DonutIcon from "@/public/assets/images/donut.png";
-import DonutIcon2 from "@/public/assets/images/donut-02.png";
 import Image from "next/image";
 
 import { Input } from "@/components/ui/input";

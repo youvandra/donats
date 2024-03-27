@@ -81,7 +81,7 @@ export default function RegisterView() {
                     id="terms2"
                     className="w-[30px] h-[30px] border border-black p-2 bg-white rounded-xl checked:bg-transparent"
                   />
-                  <span>
+                  <span className="text-[15px] font-normal">
                     18 years old and above
                     <span className="text-red-500">*</span>
                   </span>
@@ -91,7 +91,7 @@ export default function RegisterView() {
                     id="terms2"
                     className="w-[30px] h-[30px] border border-black p-2 bg-white rounded-xl checked:bg-transparent"
                   />
-                  <span>
+                  <span className="text-[15px] font-normal">
                     Not using donats for buying and selling / commercial
                     purposes
                     <span className="text-red-500">*</span>
@@ -102,7 +102,7 @@ export default function RegisterView() {
                     id="terms2"
                     className="w-[30px] h-[30px] border border-black p-2 bg-white rounded-xl checked:bg-transparent"
                   />
-                  <span>
+                  <span className="text-[15px] font-normal">
                     Agree to the terms and conditions
                     <span className="text-red-500">*</span>
                   </span>
