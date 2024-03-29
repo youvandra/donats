@@ -17,7 +17,7 @@ export default function LoginView() {
   const session = useSession();
 
   if (session.data?.user?.name) {
-    return router.push("/dashboard");
+    router.push("/dashboard");
   }
 
   const handleLogin = async (formData: FormData) => {

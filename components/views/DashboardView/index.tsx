@@ -17,7 +17,7 @@ export default function DashboardView() {
   const session = useSession();
 
   if (!session.data?.user?.name) {
-    return router.push("/");
+    router.push("/");
   }
 
   return (
@@ -60,7 +60,7 @@ export default function DashboardView() {
         <Link href={"/support"}>
           <div className="flex flex-col w-max items-end  mt-7 gap-5 relative">
             <ShadowBoxButton className="mx-auto min-w-[146px] h-[81px] cursor-default">
-              {session.data.user.name}
+              {session?.data?.user?.name}
             </ShadowBoxButton>
             <ShaodowBoxDiv
               height="296px"
