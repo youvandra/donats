@@ -3,6 +3,7 @@ import React from "react";
 import DonateView from "@/components/views/DonateView";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import { donate } from "@/actions/donated";
 
 const getPageDonate = async (username: string) => {
   const user = await prisma.user.findFirst({
@@ -31,7 +32,13 @@ export default async function DonatePage({
 
   return (
     <div className="h-full min-h-[100vh] bg-[#D9D9D9] pb-5">
-      <DonateView username={userData.username} />
+      <DonateView
+        user={{
+          id: userData.id,
+          username: userData.username,
+        }}
+        donate={donate}
+      />
     </div>
   );
 }
