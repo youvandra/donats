@@ -1,5 +1,6 @@
+"use client";
 import React from "react";
-
+import Link from 'next/link';
 import HeaderSection from "@/components/layouts/Header";
 import ShadowBoxButton from "@/components/module/ShadowBoxButton";
 import ShaodowBoxDiv from "@/components/module/ShadowBoxDiv";
@@ -9,24 +10,29 @@ import Image from "next/image";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function OverlayView() {
+  const router = useRouter();
+  const session = useSession();
+
+  if (!session.data?.user?.name) {
+    router.push("/");
+  }
   return (
     <div className="flex flex-col gap-2">
       {/* header */}
-      <HeaderSection />
+      <Link href="/dashboard"><HeaderSection /></Link>
 
       {/* main */}
       <main className="flex flex-col px-32 mt-10 justify-center items-center gap-10">
         {/* button group */}
-        <div className="w-full flex justify-between items-center">
-          <ShadowBoxButton className="mx-auto w-[146px] h-[81px] cursor-default bg-orange">
-            Cashout
+        <Link href={`/alert?username=${session?.data?.user?.name}`} target="blank">
+          <ShadowBoxButton className="mx-auto w-[146px] h-[81px] cursor-pointer bg-orange">
+            Alert page
           </ShadowBoxButton>
-          <ShadowBoxButton className="mx-auto w-[146px] h-[81px] cursor-default">
-            Cashout
-          </ShadowBoxButton>
-        </div>
+        </Link>
         {/*  */}
         <ShaodowBoxDiv backgroundColor="#F4CD00" height="200px" widht="1000px">
           <div className="mx-auto flex flex-col gap-3 py-4">

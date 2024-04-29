@@ -5,33 +5,36 @@ import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type Props = {
-  data: { from: string; amount: string; message: string }[];
+  data: { from: string; amount: string; message: string }[] | null;
 };
 
 export default function ShadowBoxNotif(props: Props) {
   const router = useRouter();
   const usernameSearch = useSearchParams().get("username");
-
-  // const [isShow, setIsShow] = useState(true);
+  
+  const [isShow, setIsShow] = useState(true);
 
   // useEffect(() => {
   //   setTimeout(() => {
   //     setIsShow(false);
-  //   }, 2000);
+  //   }, 5000);
   // }, []);
 
   // check session
   const session = useSession();
-  if (session.data?.user?.name != usernameSearch) {
-    router.push("/");
-    return <></>;
+  // if (session.data?.user?.name != usernameSearch) {
+  //   router.push("/");
+  //   return <></>;
+  // }
+  if (!props.data) {
+    return null; // Jika null, tidak menampilkan apapun
   }
 
   return (
     <>
       {props.data.map((item, idx) => {
         // if (isShow)
-        if (idx < 2)
+        if (idx < 1)
           return (
             <ShaodowBoxDiv
               key={idx}

@@ -8,8 +8,8 @@ import { authOptions } from "@/lib/nextauth";
 import { getServerSession } from "next-auth";
 
 export const metadata: Metadata = {
-  title: "Donuts",
-  description: "Donuts",
+  title: "Donats",
+  description: "Donats",
   icons: "../public/assets/images/donut.png",
 };
 

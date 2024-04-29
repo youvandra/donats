@@ -1,20 +1,205 @@
 "use client";
 import React from "react";
-
 import HeaderSection from "@/components/layouts/Header";
 import ShadowBoxButton from "@/components/module/ShadowBoxButton";
 import ShaodowBoxDiv from "@/components/module/ShadowBoxDiv";
-
+import TronWeb from "tronweb";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
 import { config } from "@/config";
-
+import { generateUsername } from "@/lib/generateUsername";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function RegisterView() {
+  const fullNode = 'https://api.shasta.trongrid.io'; // Alamat node Shasta Testnet
+  const solidityNode = 'https://api.shasta.trongrid.io'; // Alamat node solidity Shasta Testnet
+  const eventServer = 'https://api.shasta.trongrid.io'; // Alamat event server Shasta Testnet
+
+  const privateKey = '0377daeca19b5db6b47a473bcde3b732916998cba5cf82221ec1617bf877cde8';
+  const contractAddress = 'TUPMV5QYupbsgdpmqHwpvS33fbgL5K1gyC'; // Ganti dengan alamat kontrak Donats Anda
+  const contractAbi = [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "streamerAddress",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "donor",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "DonationReceived",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "streamerAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "username",
+          "type": "string"
+        }
+      ],
+      "name": "StreamerRegistered",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_username",
+          "type": "string"
+        }
+      ],
+      "name": "donate",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getBalance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTotalIncome",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_username",
+          "type": "string"
+        }
+      ],
+      "name": "registerStreamer",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "streamers",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "balance",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalIncome",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "name": "usernameToAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]; // Isi dengan ABI kontrak Donats Anda
+  const tronWeb = new TronWeb(fullNode, solidityNode, eventServer, privateKey);
+  const donatsContract = tronWeb.contract(contractAbi, contractAddress);
   const router = useRouter();
 
   const session = useSession();
@@ -26,13 +211,21 @@ export default function RegisterView() {
   const handleSubmit = async (formData: FormData) => {
     try {
       const email = formData.get("email") as string;
+      let username_tron = generateUsername(email);
       const password = formData.get("password") as string;
       const confirmPassword = formData.get("confirmPassword") as string;
       // checkbox input
       const yearAbove = formData.get("18_year");
       const commerciaPurpose = formData.get("commercial_purpose");
       const agreeTerms = formData.get("agree_terms");
+      const registerStreamerTx = await donatsContract.registerStreamer(username_tron).send({
+        shouldPollResponse: true,
+        callValue: 0,
+      });
 
+      if (!registerStreamerTx) {
+        throw new Error("Failed to register streamer");
+      }
       // input validation
       if (!email || !password || !confirmPassword) {
         alert("Please fill the inputs");
@@ -63,7 +256,7 @@ export default function RegisterView() {
   return (
     <div className="flex flex-col gap-2">
       {/* header */}
-      <HeaderSection />
+      <Link href="/"><HeaderSection /></Link>
 
       {/* main content */}
       <main className="flex flex-col py-5 justify-center items-center gap-8 w-[1000px] mx-auto">

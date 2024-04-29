@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 
 import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function LoginView() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function LoginView() {
   return (
     <div className="flex flex-col gap-2">
       {/* header */}
-      <HeaderSection />
+      <Link href="/"><HeaderSection /></Link>
 
       {/* main content */}
       <main className="flex flex-col py-5 justify-center items-center gap-8 w-[1000px] mx-auto">

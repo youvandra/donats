@@ -1,6 +1,6 @@
 "use client";
-import React from "react";
-
+import React, { useState } from "react";
+import TronWeb from "tronweb";
 import HeaderSection from "@/components/layouts/Header";
 import ShadowBoxButton from "@/components/module/ShadowBoxButton";
 import ShaodowBoxDiv from "@/components/module/ShadowBoxDiv";
@@ -16,29 +16,230 @@ type Props = {
   donate: typeof donate;
 };
 
+// Konfigurasi TronWeb
+const fullNode = "https://api.shasta.trongrid.io"; // Alamat node Shasta Testnet
+const solidityNode = "https://api.shasta.trongrid.io"; // Alamat node solidity Shasta Testnet
+const eventServer = "https://api.shasta.trongrid.io"; // Alamat event server Shasta Testnet
+
+const privateKey = '0377daeca19b5db6b47a473bcde3b732916998cba5cf82221ec1617bf877cde8';
+const tronWeb = new TronWeb(fullNode, solidityNode, eventServer, privateKey);
+
+// Alamat kontrak Donats Anda
+const contractAddress = 'TUPMV5QYupbsgdpmqHwpvS33fbgL5K1gyC'; // Ganti dengan alamat kontrak Donats Anda
+  const contractAbi = [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "streamerAddress",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "donor",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "DonationReceived",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "streamerAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "username",
+          "type": "string"
+        }
+      ],
+      "name": "StreamerRegistered",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_username",
+          "type": "string"
+        }
+      ],
+      "name": "donate",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getBalance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTotalIncome",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_username",
+          "type": "string"
+        }
+      ],
+      "name": "registerStreamer",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "streamers",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "balance",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalIncome",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "name": "usernameToAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ];
+// Buat instance kontrak
+const donatsContract = tronWeb.contract(contractAbi, contractAddress);
+
 export default function DonateView(props: Props) {
-  const handleDonate = (formdata: FormData) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleDonate = async (formdata: FormData) => {
     const above18 = formdata.get("18-above") ? true : false;
     const anymous = formdata.get("anymous") ? true : false;
 
     const from = formdata.get("from") as string;
     const amount = formdata.get("amount") as string;
     const message = formdata.get("message") as string;
-
     if (!from) return alert(`required fill input "From"`);
     if (!amount) return alert(`required fill input "amount"`);
     if (!above18) {
       return alert(`Please fill checkbox if you 18 years old above`);
     }
-
-    props.donate({
-      from: anymous ? "Anonymous" : from,
-      amount: String(amount),
-      message,
-      userId: props.user.id,
-    });
-
-    alert(`donate to: ${props.user.username}`);
+    try {
+      // Kirim transaksi donate
+      const amount_send: number = parseFloat(amount);
+      const calculatedAmount = amount_send * 1000000;
+      await donatsContract.methods.donate(props.user.username).send({
+        callValue: calculatedAmount,
+      });
+      props.donate({
+        from: anymous ? "Anonymous" : from,
+        amount: String(amount),
+        message,
+        userId: props.user.id,
+      });
+    } catch (error) {
+      console.error("Error occurred while donating:", error);
+      alert(`Failed to donate`);
+    } finally {
+      alert(`donate to: ${props.user.username} success`);
+    }
   };
 
   return (
@@ -74,7 +275,7 @@ export default function DonateView(props: Props) {
             <ShadowBoxInput
               type="number"
               name="amount"
-              label="Amount:"
+              label="Amount (TRX):"
               min={"0"}
             />
             <ShadowBoxInput type="text" name="message" label="Message:" />
@@ -102,12 +303,14 @@ export default function DonateView(props: Props) {
               </span>
             </div>
             <div className="mx-auto mt-5">
-              <ShadowBoxButton
-                type="submit"
-                className="bg-yellowGold w-[147px] h-[47px]"
-              >
-                Donate
-              </ShadowBoxButton>
+            <ShadowBoxButton
+              type="submit"
+              className="bg-yellowGold w-[147px] h-[47px]"
+              loading={loading} // Menonaktifkan tombol saat loading
+            >
+              {loading ? 'Loading...' : 'Donate'}
+            </ShadowBoxButton>
+
             </div>
           </form>
         </ShaodowBoxDiv>
@@ -115,3 +318,7 @@ export default function DonateView(props: Props) {
     </div>
   );
 }
+function setStatusMessage(arg0: string) {
+  throw new Error("Function not implemented.");
+}
+

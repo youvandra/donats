@@ -9,8 +9,9 @@ import DonutIcon from "@/public/assets/images/donut.png";
 import DonutIcon2 from "@/public/assets/images/donut-02.png";
 import Image from "next/image";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export default function DashboardView() {
   const router = useRouter();
@@ -20,13 +21,26 @@ export default function DashboardView() {
     router.push("/");
   }
 
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      router.push("/login");
+    } catch (error: any) {
+      console.error("Logout error:", error);
+      // Tangani kesalahan logout di sini jika diperlukan
+    }
+  };
+
   return (
+    
     <div className="flex flex-col gap-2">
       {/* header */}
-      <HeaderSection />
-
+      
+      <Link href="/dashboard"><HeaderSection /></Link>
+      
       {/* main */}
       <main className="flex px-32 mt-10 justify-center items-center gap-10">
+      
         {/* card 1 */}
         <Link href={"/overlay"}>
           <div className="flex flex-col items-center w-max justify-center mt-7 gap-8 translate-y-[52px]">
@@ -88,6 +102,19 @@ export default function DashboardView() {
           </div>
         </Link>
       </main>
+      <br></br>
+      <div className="flex justify-center items-center">
+            <div className="rounded-xl drop-shadow-xl shadow-black relative bg-black border-black border-l-[1.4px] border-b-[1.4px]">
+              <button
+                onClick={handleLogout}
+                className={cn(
+                  "rounded-xl w-[215px] h-[63px] border border-black px-5 py-2 bg-white",
+                )}
+              >
+                Logout
+              </button>
+            </div>
+          </div>
     </div>
   );
 }

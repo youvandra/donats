@@ -3,11 +3,12 @@ import React from "react";
 import HeaderSection from "@/components/layouts/Header";
 import ShadowBoxButton from "@/components/module/ShadowBoxButton";
 import ShaodowBoxDiv from "@/components/module/ShadowBoxDiv";
+import Link from "next/link";
 export default function TermsView() {
   return (
     <div className="flex flex-col gap-2">
       {/* header */}
-      <HeaderSection />
+      <Link href="/"><HeaderSection /></Link>
 
       {/* main content */}
       <main className="flex flex-col py-5 justify-center items-center gap-8 w-[1000px] mx-auto">

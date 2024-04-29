@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 
 import HeaderSection from "@/components/layouts/Header";
 import ShadowBoxButton from "@/components/module/ShadowBoxButton";
@@ -8,8 +9,20 @@ import DonutIcon from "@/public/assets/images/donut.png";
 import DonutKerenIcon from "@/public/assets/images/donut-01.png";
 import Image from "next/image";
 import Link from "next/link";
+import ConnectWalletButton from "@/components/module/ConnectWalletButton";
 
 export default function LandingViews() {
+  const [walletConnected, setWalletConnected] = useState(false);
+
+  useEffect(() => {
+    checkTronLinkConnection();
+  }, []);
+
+  const checkTronLinkConnection = () => {
+    if (window.tronWeb && window.tronWeb.ready) {
+      setWalletConnected(true);
+    }
+  };
   return (
     <div className="flex flex-col gap-2">
       {/* header */}
@@ -23,11 +36,16 @@ export default function LandingViews() {
       </div>
       {/* login btn */}
       <div className="mx-auto flex my-5 flex-col justify-center">
-        <Link href={"/login"}>
-          <ShadowBoxButton className="bg-yellowGold mx-auto">
-            Login
-          </ShadowBoxButton>
-        </Link>
+        {!walletConnected ? (
+          <><ConnectWalletButton />
+          <p>*Use TronLink to connect</p></>
+        ) : (
+          <Link href={"/login"}>
+            <ShadowBoxButton className="bg-yellowGold mx-auto">
+              Login
+            </ShadowBoxButton>
+          </Link>
+        )}
       </div>
       {/* main content */}
       <main className="flex flex-col py-5 justify-center items-center gap-5 w-[1000px] mx-auto">
@@ -39,7 +57,7 @@ export default function LandingViews() {
           <div className="py-[15px] px-[76px]">
             <h5 className="leading-xl text-2xl">
               Donats help you to receive financial support from your fans with
-              TRON, you can easily cash out to your TRON wallet.
+              TRON, you can easily cashout to your TRON wallet.
             </h5>
           </div>
         </ShaodowBoxDiv>
@@ -57,25 +75,29 @@ export default function LandingViews() {
               <h3 className="text-[24px]">2. Verify your account</h3>
               <h3 className="text-[24px]">3. Choose and set your overlay</h3>
               <h3 className="text-[24px]">
-                4. Don’t forget to put your Donats link Say thank you to your
-                tipper!
+                4. Don’t forget to put your Donats link 
               </h3>
-              <h3 className="text-[24px]">5. Say thank you to your tipper!</h3>
+              <h3 className="text-[24px]">5. Say thank you to your Donor!</h3>
             </div>
           </ShaodowBoxDiv>
         </div>
         {/* ready to join us section */}
-        <div className="flex self-start mt-20 justify-start items-center gap-x-10">
+        <div className="flex self-center mt-20 justify-center items-center gap-x-10">
           <Image src={DonutIcon} alt="" height={160} width={160} />
           <div className="flex flex-col gap-5">
             <h3 className="text-4xl">Ready join with us ?</h3>
-            <Link href={"/register"}>
-              <ShadowBoxButton className="text-[24px] bg-cyan">
-                Register
-              </ShadowBoxButton>
-            </Link>
+            {!walletConnected ? (
+              <ConnectWalletButton />
+            ) : (
+              <Link href={"/register"}>
+                <ShadowBoxButton className="text-[24px] bg-cyan">
+                  Register
+                </ShadowBoxButton>
+              </Link>
+            )}
           </div>
         </div>
+
         {/* last grouped section */}
         <div className="flex flex-col gap-14 mt-20">
           <div className=" flex flex-col items-start justify-center">
@@ -88,9 +110,8 @@ export default function LandingViews() {
             >
               <div className="mx-20 py-6">
                 <h2 className="text-2xl">
-                  Every transaction will be charged with 3-5% platform fee
-                  Cashout to your Tron wallet will be charged with transfer fee
-                  of ~ TRX
+                  Every transaction will be charged with 3-5% platform fee,
+                  Cashout to your Tron wallet will not incur transfer fees.
                 </h2>
               </div>
             </ShaodowBoxDiv>
