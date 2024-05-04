@@ -12,18 +12,19 @@ const ConnectWalletButton: React.FC = () => {
   }, []);
 
   const checkTronLinkConnection = () => {
-    if (window.tronWeb && window.tronWeb.ready) {
-      setConnected(true);
-    }
+      if ((window as any).tronWeb && (window as any).tronWeb.ready) {
+        setConnected(true);
+      }
   };
 
   const connectWallet = () => {
-    if (window.tronWeb && window.tronWeb.ready) {
-      setConnected(true);
-    } else {
-      setError("TronLink not installed or not ready");
-    }
+      if ((window as any).tronWeb && (window as any).tronWeb.ready) {
+        setConnected(true);
+      } else {
+        setError("TronLink not installed or not ready");
+      }
   };
+
 
   return (
     <div>

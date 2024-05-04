@@ -17,12 +17,14 @@ export default function LandingViews() {
   useEffect(() => {
     checkTronLinkConnection();
   }, []);
+  
 
   const checkTronLinkConnection = () => {
-    if (window.tronWeb && window.tronWeb.ready) {
+    if ((window as any).tronWeb && (window as any).tronWeb.ready) {
       setWalletConnected(true);
     }
   };
+
   return (
     <div className="flex flex-col gap-2">
       {/* header */}
