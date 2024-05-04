@@ -20,7 +20,7 @@ export default function RegisterView() {
   const eventServer = 'https://api.shasta.trongrid.io'; // Alamat event server Shasta Testnet
 
   const privateKey = '0377daeca19b5db6b47a473bcde3b732916998cba5cf82221ec1617bf877cde8';
-  const contractAddress = 'TUPMV5QYupbsgdpmqHwpvS33fbgL5K1gyC'; // Ganti dengan alamat kontrak Donats Anda
+  const contractAddress = 'TAfqVn8fRWVm7UWBCb33PnN8cbiXUAcFRN'; // Ganti dengan alamat kontrak Donats Anda
   const contractAbi = [
     {
       "inputs": [],
