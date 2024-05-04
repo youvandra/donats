@@ -31,7 +31,7 @@ export default function LandingViews() {
       <HeaderSection />
       <div className="text-center">
         <h1 className="text-3xl w-[808px] mx-auto text-wrap leading-2xl">
-          Empower Streamers, Elevate Support
+          Empower Streamers, Boost Support
           <br />
           Donate with Donats!
         </h1>
