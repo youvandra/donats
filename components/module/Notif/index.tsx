@@ -40,7 +40,7 @@ export default function ShadowBoxNotif(props: Props) {
               key={idx}
               backgroundColor="#F4CD00"
               height="200px"
-              widht="1000px"
+              widht="750px"
             >
               <div className="mx-auto flex flex-col gap-3 py-4">
                 <div className="flex justify-center items-center gap-16">
