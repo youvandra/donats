@@ -22,7 +22,9 @@ export default function TutorialView() {
             backgroundColor="#FFB5E6"
             innerClassName="flex justify-start items-center"
           >
-            <div className="mx-20 py-6"></div>
+            <div className="mx-20 py-6">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/dJWhc2jKGpQ?si=fQ2cZkMO3-VJqDFZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
           </ShaodowBoxDiv>
         </div>
       </main>
