@@ -23,7 +23,7 @@ export default function TutorialView() {
             innerClassName="flex justify-start items-center"
           >
             <div className="mx-20 py-6">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/dJWhc2jKGpQ?si=fQ2cZkMO3-VJqDFZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/dJWhc2jKGpQ?si=fQ2cZkMO3-VJqDFZ" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
             </div>
           </ShaodowBoxDiv>
         </div>
